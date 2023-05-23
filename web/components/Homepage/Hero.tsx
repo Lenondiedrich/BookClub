@@ -16,10 +16,8 @@ export const Hero = () => {
           O seu clube do livro
         </p>
         <Dialog.Root>
-          <Dialog.Trigger>
-            <button className="mt-[50px] xl:mt-[100px] w-[200px] md:w-[300px] transition-all hover:bg-slate-300 active:scale-90 shadow-button py-2 bg-white text-iceBlue text-2xl md:text-3xl font-semibold md:font-bold rounded">
-              Cadastre-se
-            </button>
+          <Dialog.Trigger className="mt-[50px] xl:mt-[100px] w-[200px] md:w-[300px] transition-all hover:bg-slate-300 active:scale-90 shadow-button py-2 bg-white text-iceBlue text-2xl md:text-3xl font-semibold md:font-bold rounded">
+            Cadastre-se
           </Dialog.Trigger>
           <Dialog.Portal>
             <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0" />
@@ -42,8 +40,8 @@ export const Hero = () => {
           <Dialog.Root>
             <p className="font-light mt-4">
               Já possui uma conta?{" "}
-              <Dialog.Trigger>
-                <span className="font-bold cursor-pointer">Entrar</span>
+              <Dialog.Trigger className="font-bold cursor-pointer">
+                Entrar
               </Dialog.Trigger>
               <Dialog.Portal>
                 <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0" />
