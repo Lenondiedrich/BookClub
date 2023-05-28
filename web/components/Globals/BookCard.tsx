@@ -1,20 +1,21 @@
+import { Book } from "@/types/Book";
 import Image from "next/image";
 
 interface BookCardProps {
-  bookTitle: string;
-  bookImage: string;
-  bookId: string;
+  book: Book;
 }
 
-export default function BookCard({
-  bookTitle,
-  bookImage,
-  bookId,
-}: BookCardProps) {
+export default function BookCard({ book }: BookCardProps) {
+  const { image, title } = book;
+
   return (
-    <div>
-      <span>{bookTitle}</span>
-      <Image src={bookImage} alt="book cover image" />
+    <div className="flex flex-col items-center justify-center gap-2">
+      <Image
+        src={image}
+        alt="book cover image"
+        className="w-[100px] h-[140px] object-cover"
+      />
+      <span className="font-roboto font-medium text-center">{title}</span>
     </div>
   );
 }
