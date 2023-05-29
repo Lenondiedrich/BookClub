@@ -7,4 +7,5 @@ export interface Book {
   id: string;
   reviews?: number;
   rating?: number;
+  synopsis?: string;
 }

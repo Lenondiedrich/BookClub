@@ -4,6 +4,7 @@ import ProfilePicture from "@/assets/avatar.png";
 import { Camera } from "phosphor-react";
 import { books } from "@/mockups/books";
 import BookCard from "../Globals/BookCard";
+import Text from "../Globals/Text";
 
 export default function ProfileScreen() {
   return (
@@ -23,12 +24,8 @@ export default function ProfileScreen() {
             </span>
           </div>
           <div className="w-full flex flex-col items-start mt-3">
-            <span className="text-iceBlue text-lg font-light">
-              Minhas avaliações: <strong className="font-bold">4</strong>
-            </span>
-            <span className="text-iceBlue text-lg font-light">
-              Quero ler: <strong className="font-bold">4</strong>
-            </span>
+            <Text number={4}>Minhas avaliações:</Text>
+            <Text number={3}>Quero ler:</Text>
           </div>
         </div>
         <div className="w-full pt-8 px-8">
