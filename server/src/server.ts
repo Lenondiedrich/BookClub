@@ -1,7 +1,6 @@
 
-import express from 'express'
-import { Router, Request, Response } from 'express';
-import cors from 'cors'
+import cors from 'cors';
+import express, { Router } from 'express';
 
 const app = express();
 
@@ -11,6 +10,7 @@ const PORT = process.env.PORT || 3333;
 
 const HOSTNAME = process.env.HOSTNAME || 'http://localhost'
 
+app.use(cors)
 app.use(express.json());
 
 app.get('/', (req, res) => {
