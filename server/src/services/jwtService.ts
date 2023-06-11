@@ -1,6 +1,6 @@
 import jwt from 'jsonwebtoken';
 
-const secret = process.env.SECRET || ''
+const secret = "012rTj&c1FRZ$rxWu05H"
 
 export const jwtService = {
   signToken: (payload: string | object | Buffer, expiration: string) => {
