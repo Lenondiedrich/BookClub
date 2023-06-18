@@ -3,4 +3,5 @@ export type Review = {
   user_id: string
   rating:  number
   comment: string
+  bookId?: string
 }

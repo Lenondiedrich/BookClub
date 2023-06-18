@@ -26,11 +26,11 @@ model WishList {
 }
 
 model Book {
-  id         String  @id @default(uuid())
+  id         String   @id @default(uuid())
   title      String
   image      String
   author     String
-  reviews    Int
+  reviews    Review[]
   rating     Int
   synopsis   String
   genres     Genre[]
@@ -45,7 +45,9 @@ model Review {
   rating  Int
   comment String
 
-  user User @relation(fields: [user_id], references: [id])
+  user   User    @relation(fields: [user_id], references: [id])
+  Book   Book?   @relation(fields: [bookId], references: [id])
+  bookId String?
 }
 
 model User {
