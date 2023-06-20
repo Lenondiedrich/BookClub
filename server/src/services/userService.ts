@@ -1,5 +1,5 @@
+import bcrypt from 'bcrypt';
 import { prisma } from "../lib/prisma";
-import bcrypt from 'bcrypt'
 
 interface createUserPayload {
   name: string;
@@ -17,11 +17,17 @@ export const userService = {
   }: createUserPayload) => {
     if(password === confirmPassword) {
       const hashPassword = bcrypt.hashSync(password, 10)
+      
+      const wishList = await prisma.wishList.create({
+        data: {}
+      })
+
       const user = await prisma.user.create({
         data: {
           name,
           email,
-          password: hashPassword
+          password: hashPassword,
+          wishListId: wishList.id
         },
       });
       return user;

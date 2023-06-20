@@ -10,19 +10,12 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Genre {
-  id     String  @id @default(uuid())
-  name   String
-  Book   Book?   @relation(fields: [bookId], references: [id])
-  bookId String?
-}
-
 model WishList {
-  id      String @id @default(uuid())
-  user_id String
-  books   Book[]
+  id    String @id @default(uuid())
+  books Book[]
+  User  User[]
 
-  user User @relation(fields: [user_id], references: [id])
+  @@map("wishlists")
 }
 
 model Book {
@@ -33,30 +26,40 @@ model Book {
   reviews    Review[]
   rating     Int
   synopsis   String
-  genres     Genre[]
+  genres     String
   wishListId String?
 
   WishList WishList? @relation(fields: [wishListId], references: [id])
+
+  @@map("books")
 }
 
 model Review {
-  id      String @id @default(uuid())
+  id      String  @id @default(uuid())
   user_id String
   rating  Int
   comment String
+  book_id String?
 
-  user   User    @relation(fields: [user_id], references: [id])
-  Book   Book?   @relation(fields: [bookId], references: [id])
-  bookId String?
+  user User  @relation(fields: [user_id], references: [id])
+  Book Book? @relation(fields: [book_id], references: [id])
+
+  @@unique([user_id, book_id])
+  @@map("reviews")
 }
 
 model User {
-  id        String     @id @default(uuid())
+  id        String   @id @default(uuid())
   email     String
   password  String?
   name      String
   reviews   Review[]
-  wishList  WishList[]
   avatarUrl String?
-  createdAt DateTime   @default(now())
+  createdAt DateTime @default(now())
+
+  wishListId String?
+
+  WishList WishList? @relation(fields: [wishListId], references: [id])
+
+  @@map("users")
 }
