@@ -8,4 +8,6 @@ export interface Book {
   reviews?: number;
   rating?: number;
   synopsis?: string;
+  genre?: string;
+  wishListId?: string;
 }

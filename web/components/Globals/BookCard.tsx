@@ -13,7 +13,9 @@ export default function BookCard({ book }: BookCardProps) {
       <Image
         src={image}
         alt="book cover image"
-        className="w-[100px] h-[140px] object-cover"
+        width={100}
+        height={140}
+        className="object-cover"
       />
       <span className="font-roboto font-medium text-center">{title}</span>
     </div>
