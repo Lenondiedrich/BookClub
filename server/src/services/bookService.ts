@@ -7,6 +7,9 @@ export const bookService = {
         where: {
           id: bookId,
         },
+        include: {
+          reviews: true,
+        }
       });
 
       if (!book) {
@@ -27,5 +30,26 @@ export const bookService = {
     });
 
     return book;
+  },
+  updateRating: async (bookId: string) => {
+    const book = await bookService.findById(bookId);
+
+    if(book?.reviews) {
+      const notes = book.reviews.map(review => review.rating)
+
+      function calculateNote() {
+        const sum = notes.reduce((total, rating) => total + rating, 0);
+        return sum / notes.length;
+      }
+
+      await prisma.book.update({
+        where: {
+          id: bookId
+        },
+        data: {
+          rating: calculateNote()
+        }
+      })
+    }
   }
 };

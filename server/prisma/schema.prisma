@@ -24,9 +24,9 @@ model Book {
   image      String
   author     String
   reviews    Review[]
-  rating     Int
+  rating     Float
   synopsis   String
-  genres     String
+  genre      String
   wishListId String?
 
   WishList WishList? @relation(fields: [wishListId], references: [id])
@@ -37,14 +37,13 @@ model Book {
 model Review {
   id      String  @id @default(uuid())
   user_id String
-  rating  Int
+  rating  Float
   comment String
   book_id String?
 
   user User  @relation(fields: [user_id], references: [id])
   Book Book? @relation(fields: [book_id], references: [id])
 
-  @@unique([user_id, book_id])
   @@map("reviews")
 }
 

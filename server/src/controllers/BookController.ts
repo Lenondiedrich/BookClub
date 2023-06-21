@@ -30,6 +30,10 @@ export const bookController = {
         where: { id: bookId },
         data: { reviews: { connect: { id: createdReview.id } } },
       });
+
+      // Atualizar a nota
+      bookService.updateRating(bookId)
+
     } catch (error) {
       console.error(error);
     }
@@ -67,6 +71,15 @@ export const bookController = {
     } catch (error) {
       console.error(error);
       return res.status(500).json({ message: "Erro ao deletar o livro." });
+    }
+  },
+  getAllBooks: async (req: Request,res: Response) => {
+    try {
+      const books = await prisma.book.findMany();
+      return res.status(200).json(books);
+    } catch (error) {
+      console.error('Erro ao obter os livros:', error);
+      res.status(500).json({ error: 'Erro ao obter os livros' });
     }
   },
   addToWishList:async (req: Request, res: Response) => {
