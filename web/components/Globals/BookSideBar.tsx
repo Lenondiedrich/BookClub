@@ -8,36 +8,63 @@ import BookCover from "@/assets/last-kingdom.jpg";
 import { Book } from "@/types/Book";
 import { useRouter } from "next/router";
 import * as Dialog from "@radix-ui/react-dialog";
+import { useState } from "react";
+import { useQuery } from "react-query";
+import { CreateReviewProps, createReview } from "@/api/requests";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 interface BookSideBarProps {
   isReviewPage?: boolean;
-  book?: Book;
+  book: Book;
 }
 
 export default function BookSideBar({
   isReviewPage = false,
   book,
 }: BookSideBarProps) {
+  const [rating, setRating] = useState(0);
   const router = useRouter();
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const user = JSON.parse(localStorage.getItem("user") || "");
+    const bookId = router.query.id as string;
+
+    const review: CreateReviewProps = {
+      comment: e.currentTarget.comment.value,
+      rating: rating,
+      userId: user.id,
+      bookId,
+    };
+
+    try {
+      const response = await createReview(review);
+
+      toast(response.message, { autoClose: 2000, type: "success" });
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   return (
     <div className="flex flex-col gap-3">
-      <div className="w-[150px] h-[200px]">
-        <Image src={BookCover} alt="Book cover" />
+      <div>
+        <Image src={book.image} alt="Book cover" width={150} height={200} />
       </div>
-      <ReactStars value={5} edit={false} size={32} />
-      <Text number={5}>Avaliações: </Text>
+      <ReactStars value={book.rating} edit={false} size={32} />
+      <Text number={book.reviews ? book.reviews.length : 0}>Avaliações: </Text>
       {!isReviewPage ? (
         <Button
           variant="primary"
-          onClick={() => router.push(`books/${book?.id}/reviews`)}
+          onClick={() => router.push(`${router.asPath}/reviews`)}
         >
           Ver avaliações
         </Button>
       ) : null}
       <Dialog.Root>
-        <Dialog.Trigger>
-          <Button variant="secondary">Avaliar</Button>
+        <Dialog.Trigger className="w-[150px] border-2 border-iceBlue text-iceBlue text-lg font-semibold py-1 rounded-md active:scale-90">
+          Avaliar
         </Dialog.Trigger>
         <Dialog.Portal>
           <Dialog.Overlay className="w-screen h-screen bg-black/80 fixed inset-0" />
@@ -56,19 +83,27 @@ export default function BookSideBar({
             <span className="text-iceBlue text-xl">
               Título do livro: {book?.title}
             </span>
-            <form>
+            <form onSubmit={handleSubmit}>
               <div className="flex items-center gap-5">
                 <span className="font-bold text-iceBlue text-lg">Nota:</span>
-                <ReactStars size={28} />
+                <ReactStars
+                  size={28}
+                  onChange={(rating) => setRating(rating)}
+                />
               </div>
               <div className="flex flex-col gap-1">
                 <span className="font-bold text-iceBlue text-lg">
                   O que você achou do livro?
                 </span>
-                <textarea className="border border-neutral-500 rounded-lg resize-y"></textarea>
+                <textarea
+                  name="comment"
+                  className="border border-neutral-500 rounded-lg resize-y"
+                ></textarea>
               </div>
               <div className="w-full flex items-center justify-center mt-4">
-                <Button variant="primary">Avaliar</Button>
+                <Button variant="primary" type="submit">
+                  Avaliar
+                </Button>
               </div>
             </form>
           </Dialog.Content>
@@ -80,6 +115,7 @@ export default function BookSideBar({
         </Checkbox.Indicator>
         Quero ler
       </Checkbox.Root>
+      <ToastContainer />
     </div>
   );
 }

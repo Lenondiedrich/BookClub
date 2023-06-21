@@ -1,15 +1,19 @@
 import { Book } from "@/types/Book";
 import Image from "next/image";
+import Link from "next/link";
 
 interface BookCardProps {
   book: Book;
 }
 
 export default function BookCard({ book }: BookCardProps) {
-  const { image, title } = book;
+  const { image, title, id } = book;
 
   return (
-    <div className="flex flex-col items-center justify-center gap-2">
+    <Link
+      href={`/books/${id}`}
+      className="flex flex-col items-center justify-center gap-2 cursor-pointer"
+    >
       <Image
         src={image}
         alt="book cover image"
@@ -18,6 +22,6 @@ export default function BookCard({ book }: BookCardProps) {
         className="object-cover"
       />
       <span className="font-roboto font-medium text-center">{title}</span>
-    </div>
+    </Link>
   );
 }

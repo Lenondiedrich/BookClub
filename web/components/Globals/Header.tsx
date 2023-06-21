@@ -3,8 +3,17 @@ import SearchBar from "./SearchBar";
 import Avatar from "../../assets/avatar.png";
 import * as DropdownMenu from "@radix-ui/react-dropdown-menu";
 import { Gear, SignOut, UserGear } from "phosphor-react";
+import UsersService from "@/services/UsersService";
+import { useRouter } from "next/router";
 
 export default function Header() {
+  const router = useRouter();
+
+  const handleLogout = () => {
+    UsersService.logout();
+    router.push("/");
+  };
+
   return (
     <div className="bg-iceBlue text-white flex items-center justify-around h-16">
       <span className="font-bold font-roboto text-4xl">BookClub</span>
@@ -22,10 +31,10 @@ export default function Header() {
             <DropdownMenu.Item className="flex items-center gap-3 hover:outline-none cursor-pointer">
               <UserGear size={24} /> Meu Perfil
             </DropdownMenu.Item>
-            <DropdownMenu.Item className="flex items-center gap-3 hover:outline-none cursor-pointer">
-              <Gear size={24} /> Configurações
-            </DropdownMenu.Item>
-            <DropdownMenu.Item className="flex items-center gap-3 hover:outline-none cursor-pointer">
+            <DropdownMenu.Item
+              className="flex items-center gap-3 hover:outline-none cursor-pointer"
+              onClick={handleLogout}
+            >
               <SignOut size={24} /> Sair
             </DropdownMenu.Item>
           </DropdownMenu.Content>
