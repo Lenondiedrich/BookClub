@@ -4,14 +4,19 @@ import { Camera } from "phosphor-react";
 import Header from "../Globals/Header";
 import Text from "../Globals/Text";
 import { LoginResponse, User } from "@/types/User";
-import { getIndications, getMe } from "@/api/requests";
+import {
+  getIndications,
+  getMe,
+  getReviewsByUser,
+  getWishlistById,
+} from "@/api/requests";
 import { useQuery } from "react-query";
 import BookCard from "../Globals/BookCard";
 import { useEffect, useState } from "react";
 import { Book } from "@/types/Book";
 
 export default function ProfileScreen() {
-  const [user, setUser] = useState<LoginResponse>();
+  const [user, setUser] = useState<User>();
 
   useEffect(() => {
     if (localStorage?.getItem("user")) {
@@ -34,6 +39,18 @@ export default function ProfileScreen() {
     }
   );
 
+  const { data: reviews } = useQuery(
+    "reviews",
+    () => getReviewsByUser(user?.id ? user.id : ""),
+    { enabled: !!user?.id }
+  );
+
+  const { data: wishlist } = useQuery(
+    "wishlist",
+    () => getWishlistById(user?.wishListId ? user.wishListId : ""),
+    { enabled: !!user?.wishListId }
+  );
+
   return (
     <>
       <Header />
@@ -53,8 +70,8 @@ export default function ProfileScreen() {
             <span className="font-bold text-iceBlue text-xl">{user?.name}</span>
           </div>
           <div className="w-full flex flex-col items-start mt-3">
-            <Text number={4}>Minhas avaliações:</Text>
-            <Text number={3}>Quero ler:</Text>
+            <Text number={reviews?.length}>Minhas avaliações: </Text>
+            <Text number={wishlist?.books?.length}>Quero ler: </Text>
           </div>
         </div>
         <div className="w-full pt-8 px-8">

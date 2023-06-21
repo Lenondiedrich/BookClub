@@ -99,3 +99,23 @@ export const getIndications = async (userId: string) => {
     console.error(error)
   }
 }
+
+export const getReviewsByUser = async (userId: string) => {
+  try {
+    const { data } = await api.get(`/users/${userId}/reviews`)
+    
+    return data;
+  } catch(error) {
+    console.error(error)
+  }
+}
+
+export const getWishlistById = async (wishlistId: string) => {
+  try {
+    const { data } = await api.get(`/users/${wishlistId}/wishlist`)
+    console.log(data)
+    return data;
+  } catch(error) {
+    console.error(error)
+  }
+}

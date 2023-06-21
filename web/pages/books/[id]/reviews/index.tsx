@@ -5,9 +5,18 @@ import Picture from "@/assets/avatar.png";
 import { useRouter } from "next/router";
 import { useQuery } from "react-query";
 import { getBookById } from "@/api/requests";
+import { useEffect, useState } from "react";
+import { LoginResponse } from "@/types/User";
 
 export default function ReviewPage() {
+  const [user, setUser] = useState<LoginResponse>();
   const router = useRouter();
+
+  useEffect(() => {
+    if (localStorage?.getItem("user")) {
+      setUser(JSON.parse(localStorage?.getItem("user") || ""));
+    }
+  }, []);
 
   const { id } = router.query;
 
@@ -32,6 +41,7 @@ export default function ReviewPage() {
               userPicture={Picture}
               rating={review.rating}
               comment={review.comment}
+              userName={user?.name}
             />
           ))}
         </div>

@@ -22,6 +22,8 @@ export const SignInForm = () => {
         password: e.currentTarget.password.value,
       });
 
+      console.log(data);
+
       localStorage.setItem("user", JSON.stringify(data));
       localStorage.setItem("token", data.token);
 

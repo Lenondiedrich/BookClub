@@ -3,7 +3,7 @@ import ReactStars from "react-stars";
 
 interface ReviewCardProps {
   userPicture: StaticImageData;
-  title?: string;
+  userName?: string;
   rating: number;
   comment: string;
 }
@@ -12,7 +12,7 @@ export default function ReviewCard({
   userPicture,
   comment,
   rating,
-  title,
+  userName,
 }: ReviewCardProps) {
   return (
     <div className="flex items-start gap-3 border border-neutral-500 rounded-xl px-4 py-2">
@@ -20,7 +20,7 @@ export default function ReviewCard({
         <Image src={userPicture} alt="User picture" width={42} height={42} />
       </div>
       <div className="text-iceBlue">
-        {/* <h2 className="font-bold text-lg">{title}</h2> */}
+        <h2 className="font-bold text-lg">{userName}</h2>
         <ReactStars value={rating} edit={false} size={32} />
         <p>{comment}</p>
       </div>
