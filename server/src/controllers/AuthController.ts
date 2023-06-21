@@ -50,7 +50,7 @@ export const authController = {
         
         const token = jwtService.signToken(payload, '1d')
 
-        return res.json({ authenticated: true, ...payload, token })
+        return res.json({ authenticated: true, ...user, token })
         } else {
           return res.status(404).json({ message: "E-mail não registrado" });
         }

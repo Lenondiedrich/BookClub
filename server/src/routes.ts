@@ -14,6 +14,8 @@ router.delete('/books/:id', bookController.deleteBook);
 router.post('/wishlist/:userId/:bookId', bookController.addToWishList)
 router.put('/users/:userId', userController.updateProfile)
 router.get('/users/:id/indicate', userController.indicateBook)
+router.get('/users/:userId/reviews', userController.getUserReviews)
+router.get('/users/:wishlistId/wishlist', userController.getWishListById)
 router.get('/initial/:id/indicate', userController.indicateBookByBody)
 router.get('/me/:id', userController.me)
 
